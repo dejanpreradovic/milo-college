@@ -1,0 +1,9 @@
+.buttongroup li {
+  list-style-type: none;
+}
+
+.buttongroup ul {
+  display: flex;
+  gap: var(--spacing-xxs);
+  padding-inline-start: unset;
+}
