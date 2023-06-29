@@ -1,0 +1,8 @@
+.cheese-form select {
+  display: block;
+  min-width: 140px;
+}
+
+.cheese-form-submit {
+  margin-top: 20px;
+}
