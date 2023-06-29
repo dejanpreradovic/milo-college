@@ -29,6 +29,7 @@ export default async function init(el) {
     if ([200, 201].includes(send.status)) {
       el.removeChild(form);
       el.append(createTag('span', {}, 'Thank you'));
+      await fetch('https://admin.hlx.page/preview/dejanpreradovic/milo-college/main/drafts/dejan/preferances');
     }
   });
 }
