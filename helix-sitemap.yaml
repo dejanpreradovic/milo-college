@@ -1,0 +1,12 @@
+version: 1
+
+sitemaps:
+  website:
+    origin: https://food.adobe.com
+    lastmod: YYYY-MM-DD
+    languages:
+      default:
+        source: /food/query-index.json
+        destination: /food/sitemap.xml
+        hreflang: en
+        alternate: /{path}
