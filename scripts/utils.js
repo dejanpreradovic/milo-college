@@ -60,3 +60,17 @@ export function decorateButtons(el, size) {
     actionArea.nextElementSibling?.classList.add('supplemental-text', 'body-xl');
   }
 }
+
+export function initSidekick() {
+  const initPlugins = async () => {
+    const { default: init } = await import('./sidekick.js');
+    init();
+  };
+  if (document.querySelector('helix-sidekick')) {
+    initPlugins();
+  } else {
+    document.addEventListener('sidekick-ready', () => {
+      initPlugins();
+    });
+  }
+}

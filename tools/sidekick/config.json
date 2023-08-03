@@ -72,6 +72,16 @@
       "includePaths": [
         "**.docx**"
       ]
+    },
+    {
+      "title": "Academy",
+      "id": "academy",
+      "environments": [
+        "dev",
+        "preview",
+        "live"
+      ],
+      "event": "academy"
     }
   ]
 }
