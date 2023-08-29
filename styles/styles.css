@@ -6,3 +6,56 @@
  * 
  *
  */
+
+:root {
+  /* Spacing (Consonant) */
+  --spacing-ml: 40px;
+
+  /* Redesign colors */
+  --color-font-grey: #2c2c2c;
+
+  /* background colors */
+  --bg-color-grey: #e8e8e8;
+
+  /* Border-radius */
+  --input-border-radius: 4px;
+
+  /* drop-shadow */
+  --image-filter-drop-shadow-small: drop-shadow(
+    10px 25px 50px rgba(0 0 0 / 10%)
+  );
+
+  /* animation & transition */
+  --cubic-bezier-1: cubic-bezier(0.802, 0, 0.2, 1);
+  --fade-transition: all 0.6s var(--cubic-bezier-1);
+}
+
+/* desktop variables */
+@media (min-width: 900px) {
+  :root {
+    /* Border-radius */
+    --card-border-radius-l: 24px;
+  }
+}
+
+.fade-up,
+.item-fade-up {
+  transition: var(--fade-transition);
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.in-view,
+.in-view .fade-in,
+.in-view .fade-up,
+.in-view .fade-left,
+.in-view .item-fade-in,
+.in-view .item-fade-up,
+.in-view .item-fade-left {
+  transform: none;
+  opacity: 1;
+}
+
+.hidden {
+  display: none !important;
+}
