@@ -238,11 +238,11 @@ async function createForm(formURL) {
   const form = document.createElement('form');
   const rules = [];
   const branching = [];
-  // not working locally
+  // todo - need to change this
   // eslint-disable-next-line prefer-destructuring
   form.dataset.action = pathname.split('.json')[0];
-  // todo - used only for local testing, need to figure out how to assign this value dynamically
-  // form.dataset.action = 'https://main--milo-college--dejanpreradovic.hlx.page/drafts/dejan/form-incoming'
+  // todo - used local testing, need to figure out how to assign this value dynamically
+  form.dataset.action = 'https://main--milo-college--dejanpreradovic.hlx.page/drafts/dejan/form-incoming'
   json.data.forEach((fd, idx) => {
     fd.Type = fd.Type || 'text';
     const fieldWrapper = document.createElement('div');
