@@ -1,4 +1,15 @@
-import {addInViewAnimationToSingleElement} from '../../tools/utils/helpers.js';
+import { addInViewAnimationToSingleElement } from '../../tools/utils/helpers.js';
+
+function createInput(fd) {
+  const input = document.createElement('input');
+  input.type = fd.Type;
+  input.id = fd.Field;
+  input.setAttribute('placeholder', fd.Placeholder);
+  if (fd.Mandatory === 'x') {
+    input.setAttribute('required', 'required');
+  }
+  return input;
+}
 
 function createSelect(fd) {
   const wrapper = document.createElement('div');
@@ -12,7 +23,7 @@ function createSelect(fd) {
     ph.setAttribute('disabled', '');
     select.append(ph);
   }
-  Object.keys(fd).filter(o => o.indexOf('Option-') === 0).forEach((key) => {
+  Object.keys(fd).filter((o) => o.indexOf('Option-') === 0).forEach((key) => {
     const value = fd[key];
     if (!value) {
       return;
@@ -30,15 +41,15 @@ function createSelect(fd) {
 
     select.addEventListener('change', (e) => {
       if (e.target.value === 'other') {
-        const otherFd = {Field: `${select.id}-other-text`, Placeholder: 'Enter your answer', Type: 'text'}
+        const otherFd = { Field: `${select.id}-other-text`, Placeholder: 'Enter your answer', Type: 'text' };
         const other = createInput(otherFd);
         other.classList.add('select-other-input');
         other.setAttribute('data-other', '');
-        document.querySelector(`#${select.id}`).insertAdjacentElement("afterend", other);
+        document.querySelector(`#${select.id}`).insertAdjacentElement('afterend', other);
       } else {
         document.querySelector(`#${select.id}-other-text`).remove();
       }
-    })
+    });
   }
   if (fd.Mandatory === 'x') {
     select.setAttribute('required', 'required');
@@ -50,7 +61,7 @@ function createSelect(fd) {
 function createRadio(fd) {
   const group = document.createElement('div');
   group.classList.add('radio-group');
-  Object.keys(fd).filter(o => o.indexOf('Option-') === 0).forEach((key, idx) => {
+  Object.keys(fd).filter((o) => o.indexOf('Option-') === 0).forEach((key, idx) => {
     const value = fd[key];
     if (!value) {
       return;
@@ -82,7 +93,7 @@ function createRadio(fd) {
     radio.value = 'other';
     group.append(radio);
 
-    const other = createInput({Field: `${radio.id}-text`, Placeholder: fd.OtherOption, Type: 'text'});
+    const other = createInput({ Field: `${radio.id}-text`, Placeholder: fd.OtherOption, Type: 'text' });
     other.classList.add('radio-other-input');
     other.setAttribute('data-other', '');
     group.append(other);
@@ -96,7 +107,7 @@ function constructPayload(form) {
     if (fe.type === 'checkbox') {
       if (fe.checked) payload[fe.id] = fe.value;
     } else if (fe.type === 'radio') {
-      if (payload.hasOwnProperty(fe.name)) {
+      if (Object.prototype.hasOwnProperty.call(payload, fe.name)) {
         return;
       }
       let value = form.querySelector(`input[name='${fe.name}']:checked`)?.value || '';
@@ -122,9 +133,7 @@ async function submitForm(form) {
   const resp = await fetch(form.dataset.action, {
     method: 'POST',
     cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ data: payload }),
   });
   await resp.text();
@@ -158,17 +167,6 @@ function createHeading(fd, el) {
   return heading;
 }
 
-function createInput(fd) {
-  const input = document.createElement('input');
-  input.type = fd.Type;
-  input.id = fd.Field;
-  input.setAttribute('placeholder', fd.Placeholder);
-  if (fd.Mandatory === 'x') {
-    input.setAttribute('required', 'required');
-  }
-  return input;
-}
-
 function createTextArea(fd) {
   const input = document.createElement('textarea');
   input.id = fd.Field;
@@ -198,7 +196,6 @@ function applyRules(form, rules) {
         if (payload[key] === value) {
           form.querySelector(`#${field.fieldId}`).classList.remove('hidden');
         } else {
-          console.log(form);
           form.querySelector(`#${field.fieldId}`).classList.add('hidden');
         }
       }
@@ -242,7 +239,7 @@ async function createForm(formURL) {
   // eslint-disable-next-line prefer-destructuring
   form.dataset.action = pathname.split('.json')[0];
   // todo - used local testing, need to figure out how to assign this value dynamically
-  form.dataset.action = 'https://main--milo-college--dejanpreradovic.hlx.page/drafts/dejan/form-incoming'
+  form.dataset.action = 'https://main--milo-college--dejanpreradovic.hlx.page/drafts/dejan/form-incoming';
   json.data.forEach((fd, idx) => {
     fd.Type = fd.Type || 'text';
     const fieldWrapper = document.createElement('div');
@@ -291,7 +288,7 @@ async function createForm(formURL) {
       }
     }
     if (fd.RenderCondition) {
-      branching.push({fieldId: fieldWrapper.id, condition: fd.RenderCondition});
+      branching.push({ fieldId: fieldWrapper.id, condition: fd.RenderCondition });
     }
     form.append(fieldWrapper);
   });
