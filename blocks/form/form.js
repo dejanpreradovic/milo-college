@@ -228,18 +228,14 @@ function fill(form) {
   }
 }
 
-async function createForm(formURL) {
+async function createForm(formURL, submitURL) {
   const { pathname } = new URL(formURL);
   const resp = await fetch(pathname);
   const json = await resp.json();
   const form = document.createElement('form');
   const rules = [];
   const branching = [];
-  // todo - need to change this
-  // eslint-disable-next-line prefer-destructuring
-  form.dataset.action = pathname.split('.json')[0];
-  // todo - used local testing, need to figure out how to assign this value dynamically
-  form.dataset.action = 'https://main--milo-college--dejanpreradovic.hlx.page/drafts/dejan/form-incoming';
+  form.dataset.action = submitURL;
   json.data.forEach((fd, idx) => {
     fd.Type = fd.Type || 'text';
     const fieldWrapper = document.createElement('div');
@@ -303,8 +299,10 @@ async function createForm(formURL) {
 
 export default async function decorate(block) {
   const form = block.querySelector('a[href$=".json"]');
+  const submit = block.querySelector('a:not([href$=".json"])');
   addInViewAnimationToSingleElement(block, 'fade-up');
-  if (form) {
-    form.replaceWith(await createForm(form.href));
+  if (form && submit) {
+    submit.remove();
+    form.replaceWith(await createForm(form.href, submit));
   }
 }
